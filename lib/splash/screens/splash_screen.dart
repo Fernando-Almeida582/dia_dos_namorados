@@ -48,7 +48,9 @@ class _SplashScreenState extends State<SplashScreen>
 
     _calculateDifference();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _calculateDifference();
+      setState(() {
+        _calculateDifference();
+      });
     });
     WidgetsBinding.instance.addObserver(this);
 
