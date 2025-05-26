@@ -16,8 +16,25 @@ class $AssetsImagesGen {
   AssetGenImage get capaLittleTalks =>
       const AssetGenImage('assets/images/capa_little_talks.png');
 
+  /// File path: assets/images/imagem_1.jpg
+  AssetGenImage get imagem1 =>
+      const AssetGenImage('assets/images/imagem_1.jpg');
+
+  /// File path: assets/images/splash_login.png
+  AssetGenImage get splashLogin =>
+      const AssetGenImage('assets/images/splash_login.png');
+
+  /// File path: assets/images/splash_login_2.png
+  AssetGenImage get splashLogin2 =>
+      const AssetGenImage('assets/images/splash_login_2.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [capaLittleTalks];
+  List<AssetGenImage> get values => [
+    capaLittleTalks,
+    imagem1,
+    splashLogin,
+    splashLogin2,
+  ];
 }
 
 class $AssetsMusicsGen {

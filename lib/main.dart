@@ -1,3 +1,4 @@
+import 'package:dia_dos_namorados/common/navigation/navigation.dart';
 import 'package:dia_dos_namorados/splash/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Pitica',
+      routes: Navigation(context).routes,
+      navigatorKey: Navigation.navigatorKey,
       home: const SplashScreen()
     );
   }

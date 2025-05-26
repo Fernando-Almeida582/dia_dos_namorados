@@ -8,13 +8,16 @@ import '../../gen/assets.gen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  static const routeName = '/homeScreen';
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen>
     with WidgetsBindingObserver, TickerProviderStateMixin {
-  late Timer _timer;
+  late Timer _timerTime;   // Timer para o tempo
+  late Timer _timerImage;  // Timer para trocar imagem e fundo
   late Duration _difference;
   late int years;
   late int days;
@@ -24,6 +27,20 @@ class _HomeScreenState extends State<HomeScreen>
   final DateTime startDate = DateTime(2022, 2, 15);
   bool isPlaying = false;
   final player = AudioPlayer();
+  int _currentIndex = 0;
+
+  final List<String> _images = [
+    Assets.images.imagem1.path,
+    Assets.images.splashLogin2.path,
+  ];
+  final List<Color> _backgroundColors = [
+    Color(0xFFd1cdba),
+    Colors.green,
+    Colors.purple,
+    Colors.orange,
+    Colors.teal,
+  ];
+
 
   void _toggleMusic() async {
     if (isPlaying) {
@@ -47,14 +64,17 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
 
     _calculateDifference();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _calculateDifference();
+    _timerTime = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _calculateDifference();
+      });
     });
+
     WidgetsBinding.instance.addObserver(this);
 
     _controllers = List.generate(
       numberOfHearts,
-          (index) => AnimationController(
+      (index) => AnimationController(
         vsync: this,
         duration: Duration(milliseconds: 3000 + index * 300),
       ),
@@ -63,15 +83,15 @@ class _HomeScreenState extends State<HomeScreen>
     _animations = _controllers
         .map(
           (controller) => Tween<double>(
-        begin: 0,
-        end: 1,
-      ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut)),
-    )
+            begin: 0,
+            end: 1,
+          ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut)),
+        )
         .toList();
 
     _startPositions = List.generate(
       numberOfHearts,
-          (index) => (index + 0) / (numberOfHearts + 1),
+      (index) => (index + 0) / (numberOfHearts + 1),
     );
     for (var i = 0; i < numberOfHearts; i++) {
       Future.delayed(Duration(milliseconds: i * 500), () {
@@ -80,11 +100,17 @@ class _HomeScreenState extends State<HomeScreen>
         }
       });
     }
+    _timerImage = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      setState(() {
+        _currentIndex = (_currentIndex + 1) % _images.length;
+      });
+    });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timerImage.cancel();
+    _timerTime.cancel();
     WidgetsBinding.instance.removeObserver(this);
     for (var controller in _controllers) {
       controller.dispose();
@@ -135,124 +161,140 @@ class _HomeScreenState extends State<HomeScreen>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: SizedBox(
-          width: size.width,
-          height: size.height,
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                Assets.images.capaLittleTalks.path,
-                                width: 60,
-                                height: 60,
-                                fit: BoxFit.cover,
+      body: AnimatedContainer(
+        duration: const Duration(milliseconds: 600),
+        width: size.width,
+        height: size.height,
+        color: _backgroundColors[_currentIndex],
+        child: SafeArea(
+          child: SizedBox(
+            width: size.width,
+            height: size.height,
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Card(
+                        elevation: 4,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.asset(
+                                  Assets.images.capaLittleTalks.path,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  Text(
-                                    'Little Talks',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      'Little Talks',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'Of Monster and Men',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.grey,
+                                    Text(
+                                      'Of Monster and Men',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                isPlaying
-                                    ? Icons.pause_circle_filled
-                                    : Icons.play_circle_fill,
-                                size: 40,
-                                color: Colors.pink,
+                              IconButton(
+                                icon: Icon(
+                                  isPlaying
+                                      ? Icons.pause_circle_filled
+                                      : Icons.play_circle_fill,
+                                  size: 40,
+                                  color: Colors.pink,
+                                ),
+                                onPressed: _toggleMusic,
                               ),
-                              onPressed: _toggleMusic,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-
-                    Container(
-                      margin: EdgeInsets.only(bottom: 16, top: 16),
-                      width: size.width * 0.65,
-                      height: size.height * 0.6,
-                      color: Colors.blue,
-                    ),
-                    Text(
-                      "❤️ Eu te amo a: ",
-                      style: TextStyle(),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '$years anos  $days dias  $hours horas  $minutes minutos e $seconds segundos',
-                      textAlign: TextAlign.center,
-                    ),
-                    Divider(color: Colors.black),
-                    Text(
-                      'Meu amor, saiba que você é a coisa mais linda e importante da minha vida, eu te amo demais',
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+          
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 600),
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 16, top: 16),
+                          width: size.width * 0.65,
+                          height: size.height * 0.6,
+                          key: ValueKey<int>(_currentIndex),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(_images[_currentIndex]),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "❤️ Eu te amo a: ",
+                        style: TextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        '$years anos  $days dias  $hours horas  $minutes minutos e $seconds segundos',
+                        textAlign: TextAlign.center,
+                      ),
+                      Divider(color: Colors.black),
+                      Text(
+                        'Meu amor, saiba que você é a coisa mais linda e importante da minha vida, eu te amo demais',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              ...List.generate(numberOfHearts, (index) {
-                return AnimatedBuilder(
-                  animation: _controllers[index],
-                  builder: (context, child) {
-                    final progress = _animations[index].value;
-
-                    final left = size.width * _startPositions[index];
-                    final bottom = -50 + (size.height + 100) * progress;
-
-                    return Positioned(
-                      left: left,
-                      bottom: bottom,
-                      child: Opacity(
-                        opacity: 1 - progress,
-                        child: Icon(
-                          Icons.favorite,
-                          color: Colors.pinkAccent.withValues(alpha: 0.7),
-                          size: 24 * (1 - progress) + 12,
+                ...List.generate(numberOfHearts, (index) {
+                  return AnimatedBuilder(
+                    animation: _controllers[index],
+                    builder: (context, child) {
+                      final progress = _animations[index].value;
+          
+                      final left = size.width * _startPositions[index];
+                      final bottom = -50 + (size.height + 100) * progress;
+          
+                      return Positioned(
+                        left: left,
+                        bottom: bottom,
+                        child: Opacity(
+                          opacity: 1 - progress,
+                          child: Icon(
+                            Icons.favorite,
+                            color: Colors.pinkAccent.withValues(alpha: 0.7),
+                            size: 24 * (1 - progress) + 12,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              }),
-            ],
+                      );
+                    },
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),
