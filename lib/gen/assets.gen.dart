@@ -20,6 +20,30 @@ class $AssetsImagesGen {
   AssetGenImage get imagem1 =>
       const AssetGenImage('assets/images/imagem_1.jpg');
 
+  /// File path: assets/images/imagem_2.jpg
+  AssetGenImage get imagem2 =>
+      const AssetGenImage('assets/images/imagem_2.jpg');
+
+  /// File path: assets/images/imagem_3.jpg
+  AssetGenImage get imagem3 =>
+      const AssetGenImage('assets/images/imagem_3.jpg');
+
+  /// File path: assets/images/imagem_4.jpg
+  AssetGenImage get imagem4 =>
+      const AssetGenImage('assets/images/imagem_4.jpg');
+
+  /// File path: assets/images/imagem_5.jpg
+  AssetGenImage get imagem5 =>
+      const AssetGenImage('assets/images/imagem_5.jpg');
+
+  /// File path: assets/images/imagem_6.jpg
+  AssetGenImage get imagem6 =>
+      const AssetGenImage('assets/images/imagem_6.jpg');
+
+  /// File path: assets/images/imagem_7.png
+  AssetGenImage get imagem7 =>
+      const AssetGenImage('assets/images/imagem_7.png');
+
   /// File path: assets/images/splash_login.png
   AssetGenImage get splashLogin =>
       const AssetGenImage('assets/images/splash_login.png');
@@ -32,6 +56,12 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
     capaLittleTalks,
     imagem1,
+    imagem2,
+    imagem3,
+    imagem4,
+    imagem5,
+    imagem6,
+    imagem7,
     splashLogin,
     splashLogin2,
   ];

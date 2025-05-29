@@ -16,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with WidgetsBindingObserver, TickerProviderStateMixin {
-  late Timer _timerTime;   // Timer para o tempo
-  late Timer _timerImage;  // Timer para trocar imagem e fundo
+  late Timer _timerTime; // Timer para o tempo
+  late Timer _timerImage; // Timer para trocar imagem e fundo
   late Duration _difference;
   late int years;
   late int days;
@@ -31,16 +31,59 @@ class _HomeScreenState extends State<HomeScreen>
 
   final List<String> _images = [
     Assets.images.imagem1.path,
-    Assets.images.splashLogin2.path,
+    Assets.images.imagem2.path,
+    Assets.images.imagem3.path,
+    Assets.images.imagem4.path,
+    Assets.images.imagem5.path,
+    Assets.images.imagem6.path,
+    Assets.images.imagem7.path,
   ];
   final List<Color> _backgroundColors = [
     Color(0xFFd1cdba),
-    Colors.green,
-    Colors.purple,
-    Colors.orange,
-    Colors.teal,
+    Color(0xFFDA976C),
+    Color(0xFF473531),
+    Color(0xFF3D372C),
+    Color(0xFF646564),
+    Color(0xFF58534C),
+    Color(0xFF574949),
+  ];
+  final List<Color> _borderColors = [
+    Color(0xFFb5af95), // um tom mais escuro/forte do que 0xFFd1cdba
+    Color(0xFFB35A2F), // mais forte que 0xFFDA976C
+    Color(0xFF2C1F1B),
+    Color(0xFF1F1C14),
+    Color(0xFF3C3D3C),
+    Color(0xFF3A342E),
+    Color(0xFF3A2B2B),
   ];
 
+  final List<Color> _textColors = [
+    Colors.black, // Para o fundo 0xFFd1cdba (claro)
+    Colors.black, // Para o fundo 0xFFDA976C (médio claro)
+    Colors.white, // Para o fundo 0xFF473531 (escuro)
+    Colors.white, // Para o fundo 0xFF3D372C (escuro)
+    Colors.white, // Para o fundo 0xFF646564 (escuro)
+    Colors.white, // Para o fundo 0xFF58534C (escuro)
+    Colors.white, // Para o fundo 0xFF574949 (escuro)
+  ];
+  final List<Color> _cardColors = [
+    Colors.white,
+    Colors.white,
+    Colors.black54,
+    Colors.black54,
+    Colors.black54,
+    Colors.black54,
+    Colors.black54,
+  ];
+  final List<Color> _iconColors = [
+    Colors.black,
+    Colors.black,
+    Colors.white,
+    Colors.white,
+    Colors.white,
+    Colors.white,
+    Colors.white,
+  ];
 
   void _toggleMusic() async {
     if (isPlaying) {
@@ -178,11 +221,10 @@ class _HomeScreenState extends State<HomeScreen>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Card(
+                        color: _cardColors[_currentIndex],
                         elevation: 4,
                         margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
+                            horizontal: 16, vertical: 8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -203,19 +245,21 @@ class _HomeScreenState extends State<HomeScreen>
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text(
                                       'Little Talks',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
+                                        color: _iconColors[_currentIndex],
                                       ),
                                     ),
                                     Text(
                                       'Of Monster and Men',
                                       style: TextStyle(
                                         fontSize: 14,
-                                        color: Colors.grey,
+                                        color: _iconColors[_currentIndex]
+                                            .withValues(alpha: 0.7),
                                       ),
                                     ),
                                   ],
@@ -227,20 +271,27 @@ class _HomeScreenState extends State<HomeScreen>
                                       ? Icons.pause_circle_filled
                                       : Icons.play_circle_fill,
                                   size: 40,
-                                  color: Colors.pink,
+                                  color: _iconColors[_currentIndex], // Agora muda conforme o fundo
                                 ),
                                 onPressed: _toggleMusic,
                               ),
+
                             ],
                           ),
                         ),
                       ),
-          
+
+
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 600),
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 16, top: 16),
-                          width: size.width * 0.65,
+                          margin: EdgeInsets.only(
+                            bottom: 16,
+                            top: 16,
+                            left: 16,
+                            right: 16,
+                          ),
+                          width: size.width,
                           height: size.height * 0.6,
                           key: ValueKey<int>(_currentIndex),
                           decoration: BoxDecoration(
@@ -248,23 +299,56 @@ class _HomeScreenState extends State<HomeScreen>
                               image: AssetImage(_images[_currentIndex]),
                               fit: BoxFit.cover,
                             ),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: _borderColors[_currentIndex],
+                              width: 5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.3),
+                                blurRadius: 8,
+                                offset: Offset(2, 4),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Text(
-                        "❤️ Eu te amo a: ",
-                        style: TextStyle(),
-                        textAlign: TextAlign.center,
+
+                      Container(
+                        margin: EdgeInsets.only(left: 0, right: 0),
+                        child: Text(
+                          "❤️ Eu te amo a: ",
+                          style: TextStyle(
+                            color: _textColors[_currentIndex],
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      Text(
-                        '$years anos  $days dias  $hours horas  $minutes minutos e $seconds segundos',
-                        textAlign: TextAlign.center,
+                      Container(
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                        child: Text(
+                          '$years anos  $days dias  $hours horas  $minutes minutos e $seconds segundos',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: _textColors[_currentIndex],
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                      Divider(color: Colors.black),
-                      Text(
-                        'Meu amor, saiba que você é a coisa mais linda e importante da minha vida, eu te amo demais',
-                        textAlign: TextAlign.center,
+                      Divider(color: _textColors[_currentIndex]),
+                      Container(
+                        margin: EdgeInsets.only(left: 16, right: 16),
+                        child: Text(
+                          'Meu amor, saiba que você é a coisa mais linda e importante da minha vida, eu te amo demais',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: _textColors[_currentIndex],
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -274,10 +358,10 @@ class _HomeScreenState extends State<HomeScreen>
                     animation: _controllers[index],
                     builder: (context, child) {
                       final progress = _animations[index].value;
-          
+
                       final left = size.width * _startPositions[index];
                       final bottom = -50 + (size.height + 100) * progress;
-          
+
                       return Positioned(
                         left: left,
                         bottom: bottom,
