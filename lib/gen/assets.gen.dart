@@ -16,8 +16,95 @@ class $AssetsImagesGen {
   AssetGenImage get capaLittleTalks =>
       const AssetGenImage('assets/images/capa_little_talks.png');
 
+  /// File path: assets/images/imagem_1.jpg
+  AssetGenImage get imagem1 =>
+      const AssetGenImage('assets/images/imagem_1.jpg');
+
+  /// File path: assets/images/imagem_10.jpg
+  AssetGenImage get imagem10 =>
+      const AssetGenImage('assets/images/imagem_10.jpg');
+
+  /// File path: assets/images/imagem_11.jpg
+  AssetGenImage get imagem11 =>
+      const AssetGenImage('assets/images/imagem_11.jpg');
+
+  /// File path: assets/images/imagem_12.jpg
+  AssetGenImage get imagem12 =>
+      const AssetGenImage('assets/images/imagem_12.jpg');
+
+  /// File path: assets/images/imagem_13.jpg
+  AssetGenImage get imagem13 =>
+      const AssetGenImage('assets/images/imagem_13.jpg');
+
+  /// File path: assets/images/imagem_14.jpg
+  AssetGenImage get imagem14 =>
+      const AssetGenImage('assets/images/imagem_14.jpg');
+
+  /// File path: assets/images/imagem_15.jpg
+  AssetGenImage get imagem15 =>
+      const AssetGenImage('assets/images/imagem_15.jpg');
+
+  /// File path: assets/images/imagem_2.jpg
+  AssetGenImage get imagem2 =>
+      const AssetGenImage('assets/images/imagem_2.jpg');
+
+  /// File path: assets/images/imagem_3.jpg
+  AssetGenImage get imagem3 =>
+      const AssetGenImage('assets/images/imagem_3.jpg');
+
+  /// File path: assets/images/imagem_4.jpg
+  AssetGenImage get imagem4 =>
+      const AssetGenImage('assets/images/imagem_4.jpg');
+
+  /// File path: assets/images/imagem_5.jpg
+  AssetGenImage get imagem5 =>
+      const AssetGenImage('assets/images/imagem_5.jpg');
+
+  /// File path: assets/images/imagem_6.jpg
+  AssetGenImage get imagem6 =>
+      const AssetGenImage('assets/images/imagem_6.jpg');
+
+  /// File path: assets/images/imagem_7.png
+  AssetGenImage get imagem7 =>
+      const AssetGenImage('assets/images/imagem_7.png');
+
+  /// File path: assets/images/imagem_8.jpg
+  AssetGenImage get imagem8 =>
+      const AssetGenImage('assets/images/imagem_8.jpg');
+
+  /// File path: assets/images/imagem_9.jpg
+  AssetGenImage get imagem9 =>
+      const AssetGenImage('assets/images/imagem_9.jpg');
+
+  /// File path: assets/images/splash_login.png
+  AssetGenImage get splashLogin =>
+      const AssetGenImage('assets/images/splash_login.png');
+
+  /// File path: assets/images/splash_login_2.png
+  AssetGenImage get splashLogin2 =>
+      const AssetGenImage('assets/images/splash_login_2.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [capaLittleTalks];
+  List<AssetGenImage> get values => [
+    capaLittleTalks,
+    imagem1,
+    imagem10,
+    imagem11,
+    imagem12,
+    imagem13,
+    imagem14,
+    imagem15,
+    imagem2,
+    imagem3,
+    imagem4,
+    imagem5,
+    imagem6,
+    imagem7,
+    imagem8,
+    imagem9,
+    splashLogin,
+    splashLogin2,
+  ];
 }
 
 class $AssetsMusicsGen {
